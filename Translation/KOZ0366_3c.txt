@@ -1,0 +1,5 @@
+Slunce: rotuje na místě
+
+Země: první dynamická rotace určuje rychlost oběhu kolem Slunce, poté se posune o danou translaci od Slunce, druhá dynamická rotace způsobuje rotaci po vlastní ose
+
+Měsíc: první dynamická rotace určuje rychlost oběhu kolem Slunce, poté se posune o danou translaci od Slunce na stejné místo jako je Země, druhá dynamická rotace určuje rychlost oběhu kolem Země, poté se posune od Země o danou translaci, třetí dynamická rotace způsobuje rotaci po vlastní ose
