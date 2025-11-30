@@ -1,5 +1,13 @@
 #include "DrawableObject.h"
 
+DrawableObject::DrawableObject(DrawableObject& object) {
+	this->model = object.model;
+	this->color = object.color;
+	this->shaderProgram = object.shaderProgram;
+	this->texture = object.texture;
+
+	this->transformation = new CompositeTransformation();
+}
 
 DrawableObject::DrawableObject(Model* model, glm::vec3 color, ShaderProgram* shaderProgram, Texture* texture) {
 	this->shaderProgram = shaderProgram;

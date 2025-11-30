@@ -158,6 +158,12 @@
     <ClInclude Include="CustomTransformation.h">
       <Filter>Hlavičkové soubory\Transformations</Filter>
     </ClInclude>
+    <ClInclude Include="BezierCurve.h">
+      <Filter>Hlavičkové soubory\Transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="BezierSpline.h">
+      <Filter>Hlavičkové soubory\Transformations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="constant.frag">

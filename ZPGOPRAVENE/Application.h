@@ -13,6 +13,8 @@
 #include "Translation.h"
 #include "Scale.h"
 #include "CustomTransformation.h"
+#include "BezierCurve.h"
+#include "BezierSpline.h"
 #include "bushes.h"
 #include "gift.h"
 #include "plain.h"

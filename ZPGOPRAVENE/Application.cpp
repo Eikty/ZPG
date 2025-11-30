@@ -105,9 +105,10 @@ void Application::createModels() {
 	models.emplace("suziSmooth", new Model(suziSmooth, (sizeof(suziSmooth) / sizeof(*suziSmooth)) / 6, material_shiny));
 	models.emplace("tree", new Model(tree, (sizeof(tree) / sizeof(*tree)) / 6, material_organic));
 	models.emplace("plain", new Model(plain, (sizeof(plain) / sizeof(*plain)) / 8, material_organic, true));
+	models.emplace("formula", new Model("formula1.obj", material_flat));
 	models.emplace("shrek", new Model("shrek.obj", material_flat));
 	models.emplace("fiona", new Model("fiona.obj", material_flat));
-	models.emplace("toiled", new Model("toiled.obj", material_flat));
+	models.emplace("toiled", new Model("toiled.obj", material_shiny));
 	models.emplace("planet", new Model("planet.obj", material_flat));
 }
 
@@ -225,7 +226,6 @@ void Application::createScenes() {
 
 	scene2->addLight(new DirectionalLight(glm::vec3(0.0f, -1.0f, 3.0f), glm::vec3(1.0f), 1, shaders.at(7)));
 
-	scene2->setGround(grass);
 	scene2->setSpawnableObject(new DrawableObject(models.at("tree"), glm::vec3(0.0f, 0.67f, 0.0f)/*, new Translation(glm::vec3(0.0f, -2.0f, 0.0f))*/, shaders.at(7)));
 
 	DrawableObject* test = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, -1.0f)), shaders.at(7), new Texture("Textures/shrek.png"));
@@ -331,6 +331,35 @@ void Application::createScenes() {
 	scene3->addDrawableObjects(spaceObjects);
 	
 	Controller::addScene(scene3);
+
+	Scene* scene4 = new Scene(forest_sky);
+	shaders.at(8)->setCamera(scene4->getCamera());
+
+	grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(-20.0f, -2.0f, 0.0f)), shaders.at(8), new Texture("Textures/grass.png"));
+	grass->addTransformation(new Scale(glm::vec3(10.0f, 1.0f, 40.f)));
+	scene4->addDrawableObject(grass);
+
+	DrawableObject* asphalt = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(8), new Texture("Textures/asphalt.jpg"));
+	asphalt->addTransformation(new Scale(glm::vec3(10.0f, 1.0f, 40.f)));
+	scene4->addDrawableObject(asphalt);
+
+	DrawableObject* grass2 = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(20.0f, -2.0f, 0.0f)), shaders.at(8), new Texture("Textures/grass.png"));
+	grass2->addTransformation(new Scale(glm::vec3(10.0f, 1.0f, 40.f)));
+	scene4->addDrawableObject(grass2);
+
+	BezierSpline* spline = new BezierSpline(glm::vec3(0.0f, -2.0f, 30.0f));
+	scene4->setSpline(spline);
+
+	DrawableObject* formula = new DrawableObject(models.at("formula"), glm::vec3(1.0f, 0.1f, 0.1f), shaders.at(8));
+	formula->addTransformation(spline);
+	formula->addTransformation(new Rotation(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+	formula->addTransformation(new Scale(glm::vec3(0.1f)));
+	scene4->addDrawableObject(formula);
+
+	scene4->addLight(new DirectionalLight(glm::vec3(0.0f, -1.0f, 3.0f), glm::vec3(1.0f), 1, shaders.at(8)));
+	scene4->addFlashlight(new Flashlight(shaders.at(8), scene4->getCamera()));
+
+	Controller::addScene(scene4);
 }
 
 void Application::run() {

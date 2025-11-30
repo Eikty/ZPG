@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="BezierSpline.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cigarette.h" />
     <ClInclude Include="CompositeTransformation.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="CustomTransformation.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DrawableObject.h" />
+    <ClInclude Include="BezierCurve.h" />
     <ClInclude Include="DynamicRotation.h" />
     <ClInclude Include="Flashlight.h" />
     <ClInclude Include="ICameraObserver.h" />

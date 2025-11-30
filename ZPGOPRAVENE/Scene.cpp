@@ -6,8 +6,9 @@ Scene::Scene(Skybox* skybox, Cigarette* cigarette) {
 	camera = new Camera();
 	lights = new LightsManager();
 	selectedObjectID = 0;
-	ground = spawnable = nullptr;
+	spawnable = nullptr;
 	flashlight = nullptr;
+	spline = nullptr;
 
 	if (this->skybox)
 		this->skybox->setCamera(camera);
@@ -33,23 +34,22 @@ DrawableObject* Scene::getObjectByIndex(GLuint index) {
 	return objects[index - 1];
 }
 
-void Scene::setGround(DrawableObject* ground) {
-	this->ground = ground;
-}
-
-DrawableObject* Scene::getGround() {
-	return ground;
-}
-
 void Scene::setSpawnableObject(DrawableObject* object) {
 	spawnable = object;
 }
 
 void Scene::spawnObjectAt(glm::vec3 position) {
-	DrawableObject* toSpawn = new DrawableObject(*spawnable);
-	toSpawn->addTransformation(new Translation(position));
-	addDrawableObject(toSpawn);
-	setSelect(objects.size());
+	if (spawnable) {
+		DrawableObject* toSpawn = new DrawableObject(*spawnable);
+		toSpawn->addTransformation(new Translation(position));
+		addDrawableObject(toSpawn);
+		setSelect(objects.size());
+	}
+
+	if (spline) {
+		spline->addPoint(position);
+		setSelect(0);
+	}
 }
 
 void Scene::addLights(LightsManager* lights) {
@@ -68,6 +68,10 @@ void Scene::addFlashlight(Flashlight* flashlight) {
 void Scene::toggleFlashlight() {
 	if (flashlight)
 		flashlight->toggle();
+}
+
+void Scene::setSpline(BezierSpline* spline) {
+	this->spline = spline;
 }
 
 void Scene::show() {

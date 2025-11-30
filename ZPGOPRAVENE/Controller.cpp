@@ -170,8 +170,7 @@ void Controller::button_callback(GLFWwindow* window, int button, int action, int
 
 				printf("pox.x: %f\tpos.y: %f\tpos.z: %f\n", pos.x, pos.y, pos.z);
 
-				if (scenes[activeScene]->getObjectByIndex(index) == scenes[activeScene]->getGround())
-					scenes[activeScene]->spawnObjectAt(pos);
+				scenes[activeScene]->spawnObjectAt(pos);
 			}
 		}
 	}

@@ -12,6 +12,7 @@ protected:
 	glm::vec3 color;
 	Texture* texture;
 public:
+	DrawableObject(DrawableObject& object);
 	DrawableObject(Model* model, glm::vec3 color, ShaderProgram* shaderProgram, Texture* texture = nullptr);
 	DrawableObject(Model* model, glm::vec3 color, ITransformation* startingTransformation, ShaderProgram* shaderProgram, Texture* texture = nullptr);
 	void addTransformation(ITransformation* transformation);

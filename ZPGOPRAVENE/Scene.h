@@ -8,6 +8,7 @@
 #include "Flashlight.h"
 #include "Skybox.h"
 #include "Cigarette.h"
+#include "BezierSpline.h"
 
 using namespace std;
 
@@ -16,12 +17,12 @@ private:
 	vector<DrawableObject*> objects;
 	Camera* camera;
 	GLuint selectedObjectID;
-	DrawableObject* ground;
 	DrawableObject* spawnable;
 	LightsManager* lights;
 	Flashlight* flashlight;
 	Skybox* skybox;
 	Cigarette* cigarette;
+	BezierSpline* spline;
 public:
 	Scene(Skybox* skybox = nullptr, Cigarette* cigarette = nullptr);
 	Camera* getCamera();
@@ -29,14 +30,13 @@ public:
 	void addDrawableObjects(vector<DrawableObject*> objects);
 	void setSelect(GLuint index);
 	DrawableObject* getObjectByIndex(GLuint index);
-	void setGround(DrawableObject* ground);
-	DrawableObject* getGround();
 	void setSpawnableObject(DrawableObject* object);
 	void spawnObjectAt(glm::vec3 position);
 	void addLights(LightsManager* lights);
 	void addLight(ILight* light);
 	void addFlashlight(Flashlight* flashlight);
 	void toggleFlashlight();
+	void setSpline(BezierSpline* spline);
 	void show();
 	~Scene();
 };

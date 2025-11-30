@@ -1,8 +1,0 @@
-Princip:
-Abychom získali vykreslenou pozici na obrazovce, tak se využívají homogenní souřadnice a perspektivní dělení díky souřadnice w.
-
-Má implementace:
-Díky metody v ShaderProgramu do vertex shaderu posílá modelová matice a díky té se nyní předá i nově vytvořený uniform w, který se nachází na souřadnici [3][3] modelové matice.
-
-Kontrola:
-Vytvořil jsem nový testovací objekt Shreka, který jsem transformoval vlastní transformací podle zadání. Ta objekt 20x zmenšila jen za pomoci w, které se předalo správně do vertex shaderu.
