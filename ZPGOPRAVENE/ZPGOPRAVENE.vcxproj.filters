@@ -164,6 +164,9 @@
     <ClInclude Include="BezierSpline.h">
       <Filter>Hlavičkové soubory\Transformations</Filter>
     </ClInclude>
+    <ClInclude Include="RandomDynamicTranslation.h">
+      <Filter>Hlavičkové soubory\Transformations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="constant.frag">
@@ -187,5 +190,9 @@
     <None Include="blinn.frag">
       <Filter>Soubory zdrojů</Filter>
     </None>
+    <None Include="cigarette.vert">
+      <Filter>Soubory zdrojů</Filter>
+    </None>
+    <None Include="cigarette.frag" />
   </ItemGroup>
 </Project>

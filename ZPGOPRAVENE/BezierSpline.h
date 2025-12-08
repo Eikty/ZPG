@@ -11,7 +11,7 @@ protected:
 	vector<glm::vec3> tempPoints;
 
 public:
-	BezierSpline(glm::vec3 startingPoint = glm::vec3(0.0f), float t = 0.5f, float delta = 0.01f) : BezierCurve(glm::mat4(), t, delta) {
+	BezierSpline(glm::vec3 startingPoint = glm::vec3(0.0f), float delta = 0.01f) : BezierCurve(glm::mat4(), delta) {
 		current = 0;
 		tempPoints.push_back(startingPoint);
 	}

@@ -2,12 +2,12 @@
 
 vector<Scene*> Controller::scenes;
 int Controller::activeScene = -1;
-float Controller::cameraSpeed = 1.001;
+float Controller::cameraSpeed = 0.1;
 bool Controller::rightMousePressed = false;
 double Controller::lastX = 0.0;
 double Controller::lastY = 0.0;
-int Controller::windowHeight = 640;
-int Controller::windowWidth = 480;
+int Controller::windowHeight = 480;
+int Controller::windowWidth = 640;
 
 
 void Controller::addScene(Scene* scene) {
@@ -67,30 +67,6 @@ void Controller::key_callback(GLFWwindow* window, int key, int scancode, int act
 			fprintf(stdout, "Changed active scene to 9.\n");
 			activeScene = 8;
 			break;
-		case GLFW_KEY_W:
-			if (getActiveScene()) {
-				fprintf(stdout, "Camera moved forward.\n");
-				getActiveScene()->getCamera()->moveZ(cameraSpeed);
-			}
-			break;
-		case GLFW_KEY_S:
-			if (getActiveScene()) {
-				fprintf(stdout, "Camera moved backwards.\n");
-				getActiveScene()->getCamera()->moveZ(-cameraSpeed);
-			}
-			break;
-		case GLFW_KEY_D:
-			if (getActiveScene()) {
-				fprintf(stdout, "Camera moved right.\n");
-				getActiveScene()->getCamera()->moveX(cameraSpeed);
-			}
-			break;
-		case GLFW_KEY_A:
-			if (getActiveScene()) {
-				fprintf(stdout, "Camera moved left.\n");
-				getActiveScene()->getCamera()->moveX(-cameraSpeed);
-			}
-			break;
 		case GLFW_KEY_F:
 			if (getActiveScene()) {
 				fprintf(stdout, "Flashlight toggled.\n");
@@ -98,6 +74,29 @@ void Controller::key_callback(GLFWwindow* window, int key, int scancode, int act
 			}
 			break;
 		}
+		break;
+	default:
+		if (getActiveScene()) {
+			switch (key) {
+			case GLFW_KEY_W:
+				fprintf(stdout, "Camera moved forward.\n");
+				getActiveScene()->getCamera()->moveZ(cameraSpeed);
+				break;
+			case GLFW_KEY_S:
+				fprintf(stdout, "Camera moved backwards.\n");
+				getActiveScene()->getCamera()->moveZ(-cameraSpeed);
+				break;
+			case GLFW_KEY_D:
+				fprintf(stdout, "Camera moved right.\n");
+				getActiveScene()->getCamera()->moveX(cameraSpeed);
+				break;
+			case GLFW_KEY_A:
+				fprintf(stdout, "Camera moved left.\n");
+				getActiveScene()->getCamera()->moveX(-cameraSpeed);
+				break;
+			}
+		}
+		break;
 	}
 
 	//printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);

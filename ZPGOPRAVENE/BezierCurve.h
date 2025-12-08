@@ -6,9 +6,9 @@ protected:
 	glm::mat4 bernstein, points;
 	float t, delta;
 public:
-	BezierCurve(glm::mat4 points, float t = 0.5f, float delta = 0.01f) {
+	BezierCurve(glm::mat4 points, float delta = 0.01f) {
 		this->points = points;
-		this->t = t;
+		t = 0.0f;
 		this->delta = delta;
 
 		bernstein = glm::mat4(

@@ -72,17 +72,16 @@ void Application::createShaders() {
 	shaderBlinnLight->createShaderFromFile(GL_VERTEX_SHADER, "shader.vert");
 	shaderBlinnLight->createShaderFromFile(GL_FRAGMENT_SHADER, "blinn.frag");
 
-	shaders.push_back(new ShaderProgram(shaderNoLight));			// 0
-	shaders.push_back(new ShaderProgram(shaderConstantLight));		// 1
-	shaders.push_back(new ShaderProgram(shaderLambertLight));		// 2
-	shaders.push_back(new ShaderProgram(shaderPhongLight));			// 3
+	shaders.push_back(new ShaderProgram(shaderPhongLight));			// 0
+	shaders.push_back(new ShaderProgram(shaderNoLight));			// 1
+	shaders.push_back(new ShaderProgram(shaderPhongLight));			// 2
+	shaders.push_back(new ShaderProgram(shaderConstantLight));		// 3
 	shaders.push_back(new ShaderProgram(shaderBlinnLight));			// 4
-
-	shaders.push_back(new ShaderProgram(shaderConstantLight));		// 5
-	shaders.push_back(new ShaderProgram(shaderLambertLight));		// 6
-	shaders.push_back(new ShaderProgram(shaderPhongLight));			// 7
-	shaders.push_back(new ShaderProgram(shaderBlinnLight));			// 8
-	shaders.push_back(new ShaderProgram(shaderNoLight));			// 9
+	shaders.push_back(new ShaderProgram(shaderBlinnLight));			// 5
+	shaders.push_back(new ShaderProgram(shaderConstantLight));		// 6
+	shaders.push_back(new ShaderProgram(shaderLambertLight));		// 7
+	shaders.push_back(new ShaderProgram(shaderPhongLight));			// 8
+	shaders.push_back(new ShaderProgram(shaderBlinnLight));			// 9
 }
 
 void Application::createModels() {
@@ -110,17 +109,19 @@ void Application::createModels() {
 	models.emplace("fiona", new Model("fiona.obj", material_flat));
 	models.emplace("toiled", new Model("toiled.obj", material_shiny));
 	models.emplace("planet", new Model("planet.obj", material_flat));
+	models.emplace("login", new Model("login.obj", material_flat));
 }
 
 void Application::createScenes() {
 	// Scene 1 - Night Forest
 	Scene* scene1 = new Scene();
-	shaders.at(3)->setCamera(scene1->getCamera());
 	shaders.at(0)->setCamera(scene1->getCamera());
+	shaders.at(1)->setCamera(scene1->getCamera());
 	vector<DrawableObject*> forest;
 	vector<glm::vec3> translations;
 
 	srand(time(NULL));
+
 
 	for (int i = 0; i < 80; i++) {
 		glm::vec3 translation;
@@ -133,7 +134,7 @@ void Application::createScenes() {
 			);
 
 		translations.push_back(translation);
-		forest.push_back(new DrawableObject(models.at("tree"), glm::vec3(0.0f, 0.67f, 0.0f), new Translation(translation), shaders.at(3)));
+		forest.push_back(new DrawableObject(models.at("tree"), glm::vec3(0.0f, 0.67f, 0.0f), new Translation(translation), shaders.at(0)));
 	}
 
 	for (int i = 0; i < 100; i++) {
@@ -144,20 +145,20 @@ void Application::createScenes() {
 		} while (find(translations.begin(), translations.end(), translation) != translations.end());
 
 		translations.push_back(translation);
-		forest.push_back(new DrawableObject(models.at("bushes"), glm::vec3(0.0f, 0.67f, 0.0f), new Translation(translation), shaders.at(3)));
+		forest.push_back(new DrawableObject(models.at("bushes"), glm::vec3(0.0f, 0.67f, 0.0f), new Translation(translation), shaders.at(0)));
 	}
 
 	scene1->addDrawableObjects(forest);
 
-	DrawableObject* grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(3), new Texture("Textures/grass.png"));
+	DrawableObject* grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(0), new Texture("Textures/grass.png"));
 	grass->addTransformation(new Scale(glm::vec3(30.0f)));
 	scene1->addDrawableObject(grass);
 
-	DrawableObject* shrek = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, 0.0f)), shaders.at(3), new Texture("Textures/shrek.png"));
+	DrawableObject* shrek = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, 0.0f)), shaders.at(0), new Texture("Textures/shrek.png"));
 	shrek->addTransformation(new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-	DrawableObject* fiona = new DrawableObject(models.at("fiona"), glm::vec3(-1.0f), new Translation(glm::vec3(-1.0f, -2.0f, 0.0f)), shaders.at(3), new Texture("Textures/fiona.png"));
+	DrawableObject* fiona = new DrawableObject(models.at("fiona"), glm::vec3(-1.0f), new Translation(glm::vec3(-1.0f, -2.0f, 0.0f)), shaders.at(0), new Texture("Textures/fiona.png"));
 	fiona->addTransformation(new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-	DrawableObject* toiled = new DrawableObject(models.at("toiled"), glm::vec3(-1.0f), new Translation(glm::vec3(-0.0f, -2.0f, 2.0f)), shaders.at(3), new Texture("Textures/toiled.jpg"));
+	DrawableObject* toiled = new DrawableObject(models.at("toiled"), glm::vec3(-1.0f), new Translation(glm::vec3(-0.0f, -2.0f, 2.0f)), shaders.at(0), new Texture("Textures/toiled.jpg"));
 	toiled->addTransformation(new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 	scene1->addDrawableObject(shrek);
 	scene1->addDrawableObject(fiona);
@@ -168,12 +169,14 @@ void Application::createScenes() {
 	for (int i = 0; i < 30; i++) {
 		glm::vec3 translation;
 
-		translation = { rand() % 41 - 20, (rand() % 201) / 100.0f, rand() % 41 - 20 };
+		translation = { rand() % 21 - 10, (rand() % 2) / 10.0f, rand() % 21 - 10 };
 
 		translations.push_back(translation);
-		PointLight* light = new PointLight(glm::vec3(1.0f), 0.3f, glm::vec3(1.0f, 3.0f, 0.3f), 5.0f, shaders.at(3), models.at("sphere"), shaders.at(0));
+		PointLight* light = new PointLight(glm::vec3(1.0f), 0.3f, glm::vec3(1.0f, 3.0f, 0.3f), 5.0f, shaders.at(3), models.at("sphere"), shaders.at(1));
 
 		light->addTransformation(new Translation(translation));
+
+		light->addTransformation(new RandomDynamicTranslation(translation, 2.0f, 4.0f, 0.001f));
 
 		light->addTransformation(new Scale(glm::vec3(0.1f)));
 
@@ -182,7 +185,7 @@ void Application::createScenes() {
 
 	scene1->addLights(fireflies);
 	
-	scene1->addFlashlight(new Flashlight(shaders.at(3), scene1->getCamera()));
+	scene1->addFlashlight(new Flashlight(shaders.at(0), scene1->getCamera()));
 
 	Controller::addScene(scene1);
 
@@ -197,38 +200,38 @@ void Application::createScenes() {
 	};
 	Skybox* forest_sky = new Skybox(sides);
 
-	Scene* scene2 = new Scene(forest_sky/*, new Cigarette(shaders.at(7))*/);
-	shaders.at(7)->setCamera(scene2->getCamera());
+	Scene* scene2 = new Scene(forest_sky, new Cigarette());
+	shaders.at(2)->setCamera(scene2->getCamera());
 
 	int i = 0;
 	for ( ; i < 80; i++) {
-		forest[i] = new DrawableObject(models.at("tree"), glm::vec3(0.0f, 0.67f, 0.0f), new Translation(translations[i]), shaders.at(7));
+		forest[i] = new DrawableObject(models.at("tree"), glm::vec3(0.0f, 0.67f, 0.0f), new Translation(translations[i]), shaders.at(2));
 	}
 
 	for ( ; i < forest.size(); i++) {
-		forest[i] = new DrawableObject(models.at("bushes"), glm::vec3(0.0f, 0.67f, 0.0f), new Translation(translations[i]), shaders.at(7));
+		forest[i] = new DrawableObject(models.at("bushes"), glm::vec3(0.0f, 0.67f, 0.0f), new Translation(translations[i]), shaders.at(2));
 	}
 	scene2->addDrawableObjects(forest);
 
-	grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(7), new Texture("Textures/grass.png"));
+	grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(2), new Texture("Textures/grass.png"));
 	grass->addTransformation(new Scale(glm::vec3(30.0f)));
 	scene2->addDrawableObject(grass);
 
-	shrek = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, 0.0f)), shaders.at(7), new Texture("Textures/shrek.png"));
+	shrek = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, 0.0f)), shaders.at(2), new Texture("Textures/shrek.png"));
 	shrek->addTransformation(new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-	fiona = new DrawableObject(models.at("fiona"), glm::vec3(-1.0f), new Translation(glm::vec3(-1.0f, -2.0f, 0.0f)), shaders.at(7), new Texture("Textures/fiona.png"));
+	fiona = new DrawableObject(models.at("fiona"), glm::vec3(-1.0f), new Translation(glm::vec3(-1.0f, -2.0f, 0.0f)), shaders.at(2), new Texture("Textures/fiona.png"));
 	fiona->addTransformation(new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-	toiled = new DrawableObject(models.at("toiled"), glm::vec3(-1.0f), new Translation(glm::vec3(-0.0f, -2.0f, 2.0f)), shaders.at(7), new Texture("Textures/toiled.jpg"));
+	toiled = new DrawableObject(models.at("toiled"), glm::vec3(-1.0f), new Translation(glm::vec3(-0.0f, -2.0f, 2.0f)), shaders.at(2), new Texture("Textures/toiled.jpg"));
 	toiled->addTransformation(new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 	scene2->addDrawableObject(shrek);
 	scene2->addDrawableObject(fiona);
 	scene2->addDrawableObject(toiled);
 
-	scene2->addLight(new DirectionalLight(glm::vec3(0.0f, -1.0f, 3.0f), glm::vec3(1.0f), 1, shaders.at(7)));
+	scene2->addLight(new DirectionalLight(glm::vec3(0.0f, -1.0f, 3.0f), glm::vec3(1.0f), 1, shaders.at(2)));
 
-	scene2->setSpawnableObject(new DrawableObject(models.at("tree"), glm::vec3(0.0f, 0.67f, 0.0f)/*, new Translation(glm::vec3(0.0f, -2.0f, 0.0f))*/, shaders.at(7)));
+	scene2->setSpawnableObject(new DrawableObject(models.at("tree"), glm::vec3(0.0f, 0.67f, 0.0f)/*, new Translation(glm::vec3(0.0f, -2.0f, 0.0f))*/, shaders.at(2)));
 
-	DrawableObject* test = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, -1.0f)), shaders.at(7), new Texture("Textures/shrek.png"));
+	DrawableObject* test = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, -1.0f)), shaders.at(2), new Texture("Textures/shrek.png"));
 	test->addTransformation(new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 	test->addTransformation(new CustomTransformation(glm::mat4(
 		1.0f, 0.0f, 0.0f, 0.0f,
@@ -251,17 +254,17 @@ void Application::createScenes() {
 	};
 	Skybox* space = new Skybox(sides);
 
-	Scene* scene3 = new Scene(space/*, new Cigarette(shaders.at(7))*/);
-	shaders.at(1)->setCamera(scene3->getCamera());
+	Scene* scene3 = new Scene(space);
+	shaders.at(3)->setCamera(scene3->getCamera());
 	shaders.at(4)->setCamera(scene3->getCamera());
 
-	scene3->addLight(new PointLight(glm::vec3(1.0f), 1.0f, glm::vec3(1.0f, 0.05f, 0.001f), 5000.0f, shaders.at(1)));
+	scene3->addLight(new PointLight(glm::vec3(1.0f), 1.0f, glm::vec3(1.0f, 0.05f, 0.001f), 5000.0f, shaders.at(3)));
 	scene3->addLight(new PointLight(glm::vec3(1.0f), 1.0f, glm::vec3(1.0f, 0.05f, 0.001f), 5000.0f, shaders.at(4)));
 
 	vector<DrawableObject*> spaceObjects;
 
 	// Sun
-	spaceObjects.push_back(new DrawableObject(models.at("planet"), glm::vec3(-1.0f), shaders.at(1), new Texture("Textures/sun.jpg")));
+	spaceObjects.push_back(new DrawableObject(models.at("planet"), glm::vec3(-1.0f), shaders.at(3), new Texture("Textures/sun.jpg")));
 	spaceObjects.back()->addTransformation(new DynamicRotation(glm::radians(0.1f), glm::vec3(0.0f, 1.0f, 0.0f)));
 
 	// Mercury
@@ -291,6 +294,14 @@ void Application::createScenes() {
 	spaceObjects.back()->addTransformation(new Translation(glm::vec3(6.0f, 0.0f, 0.0f)));
 	spaceObjects.back()->addTransformation(new DynamicRotation(glm::radians(3.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 	spaceObjects.back()->addTransformation(new Translation(glm::vec3(0.4f, 0.0f, 0.0f)));
+	spaceObjects.back()->addTransformation(new Scale(glm::vec3(0.05f)));
+
+	// Login (Second Moon)
+	spaceObjects.push_back(new DrawableObject(models.at("login"), glm::vec3(0.8f), shaders.at(4)));
+	spaceObjects.back()->addTransformation(new DynamicRotation(glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+	spaceObjects.back()->addTransformation(new Translation(glm::vec3(6.0f, 0.0f, 0.0f)));
+	spaceObjects.back()->addTransformation(new DynamicRotation(glm::radians(3.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+	spaceObjects.back()->addTransformation(new Translation(glm::vec3(0.0f, 0.4f, 0.0f)));
 	spaceObjects.back()->addTransformation(new Scale(glm::vec3(0.05f)));
 
 	// Mars
@@ -333,33 +344,51 @@ void Application::createScenes() {
 	Controller::addScene(scene3);
 
 	Scene* scene4 = new Scene(forest_sky);
-	shaders.at(8)->setCamera(scene4->getCamera());
+	shaders.at(5)->setCamera(scene4->getCamera());
 
-	grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(-20.0f, -2.0f, 0.0f)), shaders.at(8), new Texture("Textures/grass.png"));
+	grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(-20.0f, -2.0f, 0.0f)), shaders.at(5), new Texture("Textures/grass.png"));
 	grass->addTransformation(new Scale(glm::vec3(10.0f, 1.0f, 40.f)));
 	scene4->addDrawableObject(grass);
 
-	DrawableObject* asphalt = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(8), new Texture("Textures/asphalt.jpg"));
+	DrawableObject* asphalt = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(5), new Texture("Textures/asphalt.jpg"));
 	asphalt->addTransformation(new Scale(glm::vec3(10.0f, 1.0f, 40.f)));
 	scene4->addDrawableObject(asphalt);
 
-	DrawableObject* grass2 = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(20.0f, -2.0f, 0.0f)), shaders.at(8), new Texture("Textures/grass.png"));
+	DrawableObject* grass2 = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(20.0f, -2.0f, 0.0f)), shaders.at(5), new Texture("Textures/grass.png"));
 	grass2->addTransformation(new Scale(glm::vec3(10.0f, 1.0f, 40.f)));
 	scene4->addDrawableObject(grass2);
 
 	BezierSpline* spline = new BezierSpline(glm::vec3(0.0f, -2.0f, 30.0f));
 	scene4->setSpline(spline);
 
-	DrawableObject* formula = new DrawableObject(models.at("formula"), glm::vec3(1.0f, 0.1f, 0.1f), shaders.at(8));
+	DrawableObject* formula = new DrawableObject(models.at("formula"), glm::vec3(1.0f, 0.1f, 0.1f), shaders.at(5));
 	formula->addTransformation(spline);
 	formula->addTransformation(new Rotation(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 	formula->addTransformation(new Scale(glm::vec3(0.1f)));
 	scene4->addDrawableObject(formula);
 
-	scene4->addLight(new DirectionalLight(glm::vec3(0.0f, -1.0f, 3.0f), glm::vec3(1.0f), 1, shaders.at(8)));
-	scene4->addFlashlight(new Flashlight(shaders.at(8), scene4->getCamera()));
+	scene4->addLight(new DirectionalLight(glm::vec3(0.0f, -1.0f, 3.0f), glm::vec3(1.0f), 1, shaders.at(5)));
+	scene4->addFlashlight(new Flashlight(shaders.at(5), scene4->getCamera()));
 
 	Controller::addScene(scene4);
+
+	Scene* scene5 = new Scene();
+	shaders.at(6)->setCamera(scene5->getCamera());
+	shaders.at(7)->setCamera(scene5->getCamera());
+	shaders.at(8)->setCamera(scene5->getCamera());
+	shaders.at(9)->setCamera(scene5->getCamera());
+
+	scene5->addLight(new PointLight(glm::vec3(1.0f), 1.0f, glm::vec3(1.0f, 0.05f, 0.001f), 5000.0f, shaders.at(6)));
+	scene5->addLight(new PointLight(glm::vec3(1.0f), 1.0f, glm::vec3(1.0f, 0.05f, 0.001f), 5000.0f, shaders.at(7)));
+	scene5->addLight(new PointLight(glm::vec3(1.0f), 1.0f, glm::vec3(1.0f, 0.05f, 0.001f), 5000.0f, shaders.at(8)));
+	scene5->addLight(new PointLight(glm::vec3(1.0f), 1.0f, glm::vec3(1.0f, 0.05f, 0.001f), 5000.0f, shaders.at(9)));
+
+	scene5->addDrawableObject(new DrawableObject(models.at("sphere"), glm::vec3(1.0f), new Translation(glm::vec3(2.0f, 0.0f, 0.0f)), shaders.at(6)));
+	scene5->addDrawableObject(new DrawableObject(models.at("sphere"), glm::vec3(1.0f), new Translation(glm::vec3(-2.0f, 0.0f, 0.0f)), shaders.at(7)));
+	scene5->addDrawableObject(new DrawableObject(models.at("sphere"), glm::vec3(1.0f), new Translation(glm::vec3(0.0f, 2.0f, 0.0f)), shaders.at(8)));
+	scene5->addDrawableObject(new DrawableObject(models.at("sphere"), glm::vec3(1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(9)));
+
+	Controller::addScene(scene5);
 }
 
 void Application::run() {

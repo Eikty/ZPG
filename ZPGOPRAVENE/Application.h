@@ -11,6 +11,7 @@
 #include "Scene.h"
 #include "DynamicRotation.h"
 #include "Translation.h"
+#include "RandomDynamicTranslation.h"
 #include "Scale.h"
 #include "CustomTransformation.h"
 #include "BezierCurve.h"

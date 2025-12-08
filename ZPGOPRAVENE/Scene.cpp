@@ -12,6 +12,9 @@ Scene::Scene(Skybox* skybox, Cigarette* cigarette) {
 
 	if (this->skybox)
 		this->skybox->setCamera(camera);
+
+	if (this->cigarette)
+		this->cigarette->setCamera(camera);
 }
 
 Camera* Scene::getCamera() {
