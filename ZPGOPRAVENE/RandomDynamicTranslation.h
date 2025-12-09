@@ -28,6 +28,9 @@ public:
 				movementX *= -1;
 			}
 			if (rand() % 2) {
+				movementY *= -1;
+			}
+			if (rand() % 2) {
 				movementZ *= -1;
 			}
 
