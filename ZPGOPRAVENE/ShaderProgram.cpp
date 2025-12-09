@@ -1,6 +1,6 @@
 #include "ShaderProgram.h"
 
-ShaderProgram::ShaderProgram(Shader*& shader) : ICameraObserver() {
+ShaderProgram::ShaderProgram(Shader* shader) : IObserver() {
 	programID = glCreateProgram();
 
 	this->shader = shader;
@@ -37,9 +37,8 @@ void ShaderProgram::use(glm::mat4 modelMatrix, glm::vec3 color, Material* materi
 	setUniform("w", modelMatrix[3][3]);
 	setUniform("projectionMatrix", camera->getProjectionMatrix());
 
-	glm::mat4 view = camera->getCamera();
-	setUniform("viewMatrix", view);
-	setUniform("viewPosition", glm::vec3(glm::inverse(view)[3]));
+	setUniform("viewMatrix", camera->getCamera());
+	setUniform("viewPosition", glm::vec3(camera->getPosition()));
 
 	setUniform("objectColor", color);
 	setUniform("isSelected", 0);
@@ -55,40 +54,28 @@ void ShaderProgram::use(glm::mat4 modelMatrix, glm::vec3 color, Material* materi
 
 void ShaderProgram::setUniform(string name, glm::mat4 M) {
 	GLint idModelTransform = glGetUniformLocation(programID, name.c_str());
-	if (idModelTransform == -1) {
-		//fprintf(stderr, "Warning: %s uniform not found!\n", name.c_str());
-	}
-	else {
+	if (idModelTransform  != -1) {
 		glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &M[0][0]);
 	}
 }
 
 void ShaderProgram::setUniform(string name, glm::vec3 v) {
 	GLint idModelTransform = glGetUniformLocation(programID, name.c_str());
-	if (idModelTransform == -1) {
-		//fprintf(stderr, "Warning: %s uniform not found!\n", name.c_str());
-	}
-	else {
+	if (idModelTransform != -1) {
 		glUniform3fv(idModelTransform, 1, &v[0]);
 	}
 }
 
 void ShaderProgram::setUniform(string name, float f) {
 	GLint idModelTransform = glGetUniformLocation(programID, name.c_str());
-	if (idModelTransform == -1) {
-		//fprintf(stderr, "Warning: %s uniform not found!\n", name.c_str());
-	}
-	else {
+	if (idModelTransform != -1) {
 		glUniform1f(idModelTransform, f);
 	}
 }
 
 void ShaderProgram::setUniform(string name, int i) {
 	GLint idModelTransform = glGetUniformLocation(programID, name.c_str());
-	if (idModelTransform == -1) {
-		//fprintf(stderr, "Warning: %s uniform not found!\n", name.c_str());
-	}
-	else {
+	if (idModelTransform != -1) {
 		glUniform1i(idModelTransform, i);
 	}
 }

@@ -5,14 +5,14 @@
 #include <stdio.h>
 #include <string>
 #include "Shader.h"
-#include "ICameraObserver.h"
+#include "IObserver.h"
 #include "Camera.h"
 #include "Material.h"
 
 using namespace std;
 
 class Camera;
-class ShaderProgram : public ICameraObserver {
+class ShaderProgram : public IObserver {
 private:
 	GLuint programID;
 	Shader* shader;
@@ -20,7 +20,7 @@ private:
 
 	void check();
 public:
-	ShaderProgram(Shader*& shader);
+	ShaderProgram(Shader* shader);
 	void setCamera(Camera* camera);
 	void use(glm::mat4 modelMatrix, glm::vec3 color, Material* material = nullptr);
 	void setUniform(string name, glm::mat4 M);

@@ -33,10 +33,6 @@ void Scene::setSelect(GLuint index) {
 	selectedObjectID = index;
 }
 
-DrawableObject* Scene::getObjectByIndex(GLuint index) {
-	return objects[index - 1];
-}
-
 void Scene::setSpawnableObject(DrawableObject* object) {
 	spawnable = object;
 }

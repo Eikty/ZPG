@@ -1,5 +1,5 @@
-#version 330 core
-#define MAX_LIGHTS 4
+#version 330
+#define MAX_LIGHTS 32
 #define POINT 0
 #define SPOT 1
 #define DIRECTIONAL 2
@@ -25,12 +25,15 @@ in vec2 texCoords;
 
 out vec4 fragColor;
 
+uniform vec3 viewPosition;
 uniform vec3 objectColor;
 uniform Light lights[MAX_LIGHTS];
 uniform int lightsCount;
 
 uniform float ra;
 uniform float rd;
+uniform float rs;
+uniform float h;
 
 uniform sampler2D textureUnitID;
 
@@ -47,23 +50,25 @@ void main() {
     if (isSelected == 1)
         colorToUse = mix(colorToUse, vec3(1.0, 1.0, 0.0), 0.7);
 
-    fragColor = vec4(0.0, 0.0, 0.0, 1);
+    vec3 norm = normalize(worldNormal);
+    vec3 viewDir = normalize(viewPosition - worldPos);
+
+    fragColor = vec4(0.0, 0.0, 0.1, 1);
 
     for (int i = 0; i < lightsCount; i++) {
         vec3 lightVec = lights[i].position - worldPos;
-
-        float dotProduct;
+        vec3 lightDir;
         float attenuation;
 
         if (lights[i].type == DIRECTIONAL)
-            dotProduct = max(dot(normalize(-lights[i].direction), normalize(worldNormal)), 0.0);
+            lightDir = normalize(-lights[i].direction);
         else {
-            dotProduct = max(dot(normalize(lightVec), normalize(worldNormal)), 0.0);
-
             float distance = length(lightVec);
 
             if (distance > lights[i].maxRange)
                 continue;
+
+                lightDir = lightVec / distance;
 
             attenuation = 1.0 / (
                 lights[i].constant + 
@@ -72,14 +77,15 @@ void main() {
             );
         }
 
-        vec3 diffuse = rd * dotProduct * lights[i].color * lights[i].intensity;
+        vec4 ambient = ra * vec4(lights[i].color, 1.0);
 
-        vec3 ambient = ra * lights[i].color * lights[i].intensity;
+        float diff = max(dot(norm, lightDir), 0.0);
+        vec4 diffuse = rd * diff * vec4(lights[i].color, 1.0) * lights[i].intensity * vec4(colorToUse, 1);
 
-        switch (lights[i].type) {
+        switch(lights[i].type) {
             case POINT:
-                fragColor += vec4((ambient + diffuse) * colorToUse * attenuation, 1.0);
-                break;
+               fragColor += (ambient + diffuse) * attenuation;
+               break;
 
             case SPOT:
                 float dotLF = dot(normalize(-lightVec), normalize(lights[i].direction));
@@ -90,11 +96,11 @@ void main() {
                     spotIntensity = clamp(spotIntensity, 0.0, 1.0);
                 }
 
-                fragColor += vec4((ambient + diffuse) * colorToUse * attenuation * spotIntensity, 1.0);
+                fragColor += (ambient + diffuse) * attenuation * spotIntensity;
                 break;
 
             case DIRECTIONAL:
-                fragColor += vec4((ambient + diffuse) * colorToUse, 1.0);
+                fragColor += (ambient + diffuse);
                 break;
         }
     }

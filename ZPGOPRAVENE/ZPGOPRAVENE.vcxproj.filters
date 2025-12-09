@@ -95,7 +95,7 @@
     <ClInclude Include="Flashlight.h">
       <Filter>Hlavičkové soubory</Filter>
     </ClInclude>
-    <ClInclude Include="ICameraObserver.h">
+    <ClInclude Include="IObserver.h">
       <Filter>Hlavičkové soubory</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
@@ -193,6 +193,8 @@
     <None Include="cigarette.vert">
       <Filter>Soubory zdrojů</Filter>
     </None>
-    <None Include="cigarette.frag" />
+    <None Include="cigarette.frag">
+      <Filter>Soubory zdrojů</Filter>
+    </None>
   </ItemGroup>
 </Project>

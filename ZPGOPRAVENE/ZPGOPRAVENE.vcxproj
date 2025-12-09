@@ -158,7 +158,7 @@
     <ClInclude Include="BezierCurve.h" />
     <ClInclude Include="DynamicRotation.h" />
     <ClInclude Include="Flashlight.h" />
-    <ClInclude Include="ICameraObserver.h" />
+    <ClInclude Include="IObserver.h" />
     <ClInclude Include="ILight.h" />
     <ClInclude Include="ITransformation.h" />
     <ClInclude Include="LightsManager.h" />

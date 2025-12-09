@@ -1,6 +1,6 @@
 #pragma once
 
-class ICameraObserver {
+class IObserver {
 public:
 	virtual void update() = 0;
 };

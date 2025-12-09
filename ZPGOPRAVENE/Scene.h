@@ -29,7 +29,6 @@ public:
 	void addDrawableObject(DrawableObject* object);
 	void addDrawableObjects(vector<DrawableObject*> objects);
 	void setSelect(GLuint index);
-	DrawableObject* getObjectByIndex(GLuint index);
 	void setSpawnableObject(DrawableObject* object);
 	void spawnObjectAt(glm::vec3 position);
 	void addLights(LightsManager* lights);

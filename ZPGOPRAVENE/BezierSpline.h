@@ -44,7 +44,10 @@ public:
 		glm::vec3 point = glm::vec3(p * bernstein * glm::transpose(points));
 		glm::vec3 tangent = glm::vec3(dp * bernstein * glm::transpose(points));
 
-		t += delta;
+		glm::vec3 forward = glm::normalize(-tangent);
+		glm::vec3 up = glm::vec3(0, 1, 0);
+		glm::vec3 right = glm::normalize(glm::cross(up, forward));
+		up = glm::normalize(glm::cross(forward, right));
 
 		if (t >= 1.0f) {
 			if (current < allPoints.size() - 1) {
@@ -67,9 +70,13 @@ public:
 			}
 		}
 
-		if (glm::length(tangent) < 0.001f)
-			tangent = glm::vec3(0, 0, 1);
+		t += delta;
 
-		return glm::inverse(glm::lookAt(point, point + tangent, glm::vec3(0.0f, 1.0f, 0.0f)));
+		return glm::mat4(
+			glm::vec4(right, 0),
+			glm::vec4(up, 0),
+			glm::vec4(forward, 0),
+			glm::vec4(point, 1)
+		);
 	}
 };

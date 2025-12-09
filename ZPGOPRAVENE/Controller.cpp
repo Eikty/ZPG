@@ -9,7 +9,6 @@ double Controller::lastY = 0.0;
 int Controller::windowHeight = 480;
 int Controller::windowWidth = 640;
 
-
 void Controller::addScene(Scene* scene) {
 	scenes.push_back(scene);
 }
@@ -70,7 +69,7 @@ void Controller::key_callback(GLFWwindow* window, int key, int scancode, int act
 		case GLFW_KEY_F:
 			if (getActiveScene()) {
 				fprintf(stdout, "Flashlight toggled.\n");
-				getActiveScene()->toggleFlashlight();
+				scenes[activeScene]->toggleFlashlight();
 			}
 			break;
 		}
@@ -80,19 +79,19 @@ void Controller::key_callback(GLFWwindow* window, int key, int scancode, int act
 			switch (key) {
 			case GLFW_KEY_W:
 				fprintf(stdout, "Camera moved forward.\n");
-				getActiveScene()->getCamera()->moveZ(cameraSpeed);
+				scenes[activeScene]->getCamera()->moveZ(cameraSpeed);
 				break;
 			case GLFW_KEY_S:
 				fprintf(stdout, "Camera moved backwards.\n");
-				getActiveScene()->getCamera()->moveZ(-cameraSpeed);
+				scenes[activeScene]->getCamera()->moveZ(-cameraSpeed);
 				break;
 			case GLFW_KEY_D:
 				fprintf(stdout, "Camera moved right.\n");
-				getActiveScene()->getCamera()->moveX(cameraSpeed);
+				scenes[activeScene]->getCamera()->moveX(cameraSpeed);
 				break;
 			case GLFW_KEY_A:
 				fprintf(stdout, "Camera moved left.\n");
-				getActiveScene()->getCamera()->moveX(-cameraSpeed);
+				scenes[activeScene]->getCamera()->moveX(-cameraSpeed);
 				break;
 			}
 		}
@@ -124,7 +123,7 @@ void Controller::cursor_callback(GLFWwindow* window, double x, double y) {
 	//printf("cursor_callback \n");
 
 	if (rightMousePressed && getActiveScene()) {
-		getActiveScene()->getCamera()->rotate(x - lastX, y - lastY, 0.1f);
+		scenes[activeScene]->getCamera()->rotate(x - lastX, y - lastY, 0.1f);
 
 		lastX = x;
 		lastY = y;

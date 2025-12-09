@@ -21,7 +21,7 @@ glm::vec3 Camera::getDirection() {
 	return target;
 }
 
-void Camera::addObserver(ICameraObserver* observer) {
+void Camera::addObserver(IObserver* observer) {
 	observers.push_back(observer);
 }
 
@@ -45,7 +45,7 @@ glm::mat4 Camera::getCamera() {
 }
 
 void Camera::notify() {
-	for (ICameraObserver* observer : observers) {
+	for (IObserver* observer : observers) {
 		observer->update();
 	}
 }

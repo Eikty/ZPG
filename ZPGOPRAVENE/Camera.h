@@ -1,13 +1,13 @@
 #pragma once
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
-#include "ICameraObserver.h"
+#include "IObserver.h"
 
 using namespace std;
 
 class Camera {
 private:
-	vector<ICameraObserver*> observers;
+	vector<IObserver*> observers;
 	glm::mat4 projectionMatrix;
 	glm::vec3 eye;
 	glm::vec3 target;
@@ -20,7 +20,7 @@ public:
 	Camera();
 	glm::vec3 getPosition();
 	glm::vec3 getDirection();
-	void addObserver(ICameraObserver* observer);
+	void addObserver(IObserver* observer);
 	glm::mat4 getProjectionMatrix();
 	void updateProjectionMatrix(int width, int height);
 	glm::mat4 getCamera();

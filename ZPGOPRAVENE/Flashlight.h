@@ -1,8 +1,8 @@
 #pragma once
 #include "SpotLight.h"
-#include "ICameraObserver.h"
+#include "IObserver.h"
 
-class Flashlight : public SpotLight, ICameraObserver {
+class Flashlight : public SpotLight, IObserver {
 private:
 	glm::vec3 position;
 	Camera* camera;

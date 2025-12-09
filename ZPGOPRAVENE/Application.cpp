@@ -96,12 +96,8 @@ void Application::createModels() {
 	Material* material_shiny = new Material(0.1f, 0.6f, 0.9f, 128.0f);
 	Material* material_flat = new Material(0.1f, 0.8f, 0.1f, 8.0f);
 
-	models.emplace("triangle", new Model(points_triangle, 3, material_neutral));
 	models.emplace("sphere", new Model(sphere, (sizeof(sphere) / sizeof(*sphere)) / 6, material_neutral));
 	models.emplace("bushes", new Model(bushes, (sizeof(bushes) / sizeof(*bushes)) / 6, material_organic));
-	models.emplace("gift", new Model(gift, (sizeof(gift) / sizeof(*gift)) / 6, material_organic));
-	models.emplace("suziFlat", new Model(suziFlat, (sizeof(suziFlat) / sizeof(*suziFlat)) / 6, material_flat));
-	models.emplace("suziSmooth", new Model(suziSmooth, (sizeof(suziSmooth) / sizeof(*suziSmooth)) / 6, material_shiny));
 	models.emplace("tree", new Model(tree, (sizeof(tree) / sizeof(*tree)) / 6, material_organic));
 	models.emplace("plain", new Model(plain, (sizeof(plain) / sizeof(*plain)) / 8, material_organic, true));
 	models.emplace("formula", new Model("formula1.obj", material_flat));
@@ -110,11 +106,22 @@ void Application::createModels() {
 	models.emplace("toiled", new Model("toiled.obj", material_shiny));
 	models.emplace("planet", new Model("planet.obj", material_flat));
 	models.emplace("login", new Model("login.obj", material_flat));
+	models.emplace("terrain", new Model("teren.obj", material_organic));
 }
 
 void Application::createScenes() {
 	// Scene 1 - Night Forest
-	Scene* scene1 = new Scene();
+	std::vector<std::string> sides = {
+	"Textures/space.png",
+	"Textures/space.png",
+	"Textures/space.png",
+	"Textures/space.png",
+	"Textures/space.png",
+	"Textures/space.png"
+	};
+	Skybox* space = new Skybox(sides);
+
+	Scene* scene1 = new Scene(space);
 	shaders.at(0)->setCamera(scene1->getCamera());
 	shaders.at(1)->setCamera(scene1->getCamera());
 	vector<DrawableObject*> forest;
@@ -150,8 +157,7 @@ void Application::createScenes() {
 
 	scene1->addDrawableObjects(forest);
 
-	DrawableObject* grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(0), new Texture("Textures/grass.png"));
-	grass->addTransformation(new Scale(glm::vec3(30.0f)));
+	DrawableObject* grass = new DrawableObject(models.at("terrain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(0), new Texture("Textures/grass.png"));
 	scene1->addDrawableObject(grass);
 
 	DrawableObject* shrek = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, 0.0f)), shaders.at(0), new Texture("Textures/shrek.png"));
@@ -172,11 +178,11 @@ void Application::createScenes() {
 		translation = { rand() % 21 - 10, (rand() % 2) / 10.0f, rand() % 21 - 10 };
 
 		translations.push_back(translation);
-		PointLight* light = new PointLight(glm::vec3(1.0f), 0.3f, glm::vec3(1.0f, 3.0f, 0.3f), 5.0f, shaders.at(3), models.at("sphere"), shaders.at(1));
+		PointLight* light = new PointLight(glm::vec3(1.0f), 0.3f, glm::vec3(1.0f, 0.5f, 5.0f), 3.0f, shaders.at(0), models.at("sphere"), shaders.at(1));
 
 		light->addTransformation(new Translation(translation));
 
-		light->addTransformation(new RandomDynamicTranslation(translation, 2.0f, 4.0f, 0.001f));
+		light->addTransformation(new RandomDynamicTranslation(translation, glm::vec3(-15.0f, 0.0f, -15.0f), glm::vec3(15.0f, 0.0f, 15.0f), 2.0f, 4.0f, 0.001f));
 
 		light->addTransformation(new Scale(glm::vec3(0.1f)));
 
@@ -190,7 +196,7 @@ void Application::createScenes() {
 	Controller::addScene(scene1);
 
 	// Scene 2 - Daylight Forest
-	std::vector<std::string> sides = {
+	sides = {
 	"Textures/Skybox/posx.jpg",
 	"Textures/Skybox/negx.jpg",
 	"Textures/Skybox/posy.jpg",
@@ -213,8 +219,7 @@ void Application::createScenes() {
 	}
 	scene2->addDrawableObjects(forest);
 
-	grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(2), new Texture("Textures/grass.png"));
-	grass->addTransformation(new Scale(glm::vec3(30.0f)));
+	grass = new DrawableObject(models.at("terrain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(2), new Texture("Textures/grass.png"));
 	scene2->addDrawableObject(grass);
 
 	shrek = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, 0.0f)), shaders.at(2), new Texture("Textures/shrek.png"));
@@ -229,7 +234,7 @@ void Application::createScenes() {
 
 	scene2->addLight(new DirectionalLight(glm::vec3(0.0f, -1.0f, 3.0f), glm::vec3(1.0f), 1, shaders.at(2)));
 
-	scene2->setSpawnableObject(new DrawableObject(models.at("tree"), glm::vec3(0.0f, 0.67f, 0.0f)/*, new Translation(glm::vec3(0.0f, -2.0f, 0.0f))*/, shaders.at(2)));
+	scene2->setSpawnableObject(new DrawableObject(models.at("tree"), glm::vec3(0.0f, 0.67f, 0.0f), shaders.at(2)));
 
 	DrawableObject* test = new DrawableObject(models.at("shrek"), glm::vec3(-1.0f), new Translation(glm::vec3(1.0f, -2.0f, -1.0f)), shaders.at(2), new Texture("Textures/shrek.png"));
 	test->addTransformation(new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
@@ -244,16 +249,6 @@ void Application::createScenes() {
 	Controller::addScene(scene2);
 
 	// Scene 3 - Solar System
-	sides = {
-	"Textures/space.png",
-	"Textures/space.png",
-	"Textures/space.png",
-	"Textures/space.png",
-	"Textures/space.png",
-	"Textures/space.png"
-	};
-	Skybox* space = new Skybox(sides);
-
 	Scene* scene3 = new Scene(space);
 	shaders.at(3)->setCamera(scene3->getCamera());
 	shaders.at(4)->setCamera(scene3->getCamera());
@@ -343,20 +338,16 @@ void Application::createScenes() {
 	
 	Controller::addScene(scene3);
 
+	// Scene 4 - Formula Rider
 	Scene* scene4 = new Scene(forest_sky);
 	shaders.at(5)->setCamera(scene4->getCamera());
 
-	grass = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(-20.0f, -2.0f, 0.0f)), shaders.at(5), new Texture("Textures/grass.png"));
-	grass->addTransformation(new Scale(glm::vec3(10.0f, 1.0f, 40.f)));
+	grass = new DrawableObject(models.at("terrain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.1f, 0.0f)), shaders.at(5), new Texture("Textures/grass.png"));
 	scene4->addDrawableObject(grass);
 
 	DrawableObject* asphalt = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(5), new Texture("Textures/asphalt.jpg"));
 	asphalt->addTransformation(new Scale(glm::vec3(10.0f, 1.0f, 40.f)));
 	scene4->addDrawableObject(asphalt);
-
-	DrawableObject* grass2 = new DrawableObject(models.at("plain"), glm::vec3(-1.0f), new Translation(glm::vec3(20.0f, -2.0f, 0.0f)), shaders.at(5), new Texture("Textures/grass.png"));
-	grass2->addTransformation(new Scale(glm::vec3(10.0f, 1.0f, 40.f)));
-	scene4->addDrawableObject(grass2);
 
 	BezierSpline* spline = new BezierSpline(glm::vec3(0.0f, -2.0f, 30.0f));
 	scene4->setSpline(spline);
@@ -372,6 +363,7 @@ void Application::createScenes() {
 
 	Controller::addScene(scene4);
 
+	// Scene 5 - Four Spheres / Light Test
 	Scene* scene5 = new Scene();
 	shaders.at(6)->setCamera(scene5->getCamera());
 	shaders.at(7)->setCamera(scene5->getCamera());

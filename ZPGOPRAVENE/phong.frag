@@ -65,10 +65,10 @@ void main() {
         else {
             float distance = length(lightVec);
 
-            lightDir = lightVec / distance;
-
             if (distance > lights[i].maxRange)
                 continue;
+
+                lightDir = lightVec / distance;
 
             attenuation = 1.0 / (
                 lights[i].constant + 
@@ -80,15 +80,15 @@ void main() {
         vec4 ambient = ra * vec4(lights[i].color, 1.0);
 
         float diff = max(dot(norm, lightDir), 0.0);
-        vec4 diffuse = rd * diff * vec4(lights[i].color, 1.0) * lights[i].intensity;
+        vec4 diffuse = rd * diff * vec4(lights[i].color, 1.0) * lights[i].intensity * vec4(colorToUse, 1);
 
         vec3 reflectDir = reflect(-lightDir, norm);
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), h);
-        vec4 specular = rs * spec * vec4(1.0, 1.0, 1.0, 1.0);
+        vec4 specular = rs * spec * vec4(1.0, 1.0, 1.0, 1.0) * lights[i].intensity;
 
         switch(lights[i].type) {
             case POINT:
-               fragColor += (ambient + diffuse * vec4(colorToUse, 1) + specular) * attenuation;
+               fragColor += (ambient + diffuse + specular) * attenuation;
                break;
 
             case SPOT:
@@ -100,11 +100,11 @@ void main() {
                     spotIntensity = clamp(spotIntensity, 0.0, 1.0);
                 }
 
-                fragColor += (ambient + diffuse * vec4(colorToUse, 1) + specular) * attenuation * spotIntensity;
+                fragColor += (ambient + diffuse + specular) * attenuation * spotIntensity;
                 break;
 
             case DIRECTIONAL:
-                fragColor += (ambient + diffuse * vec4(colorToUse, 1) + specular);
+                fragColor += (ambient + diffuse + specular);
                 break;
         }
     }
