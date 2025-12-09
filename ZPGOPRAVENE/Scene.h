@@ -28,6 +28,7 @@ public:
 	Camera* getCamera();
 	void addDrawableObject(DrawableObject* object);
 	void addDrawableObjects(vector<DrawableObject*> objects);
+	GLuint getSelect();
 	void setSelect(GLuint index);
 	void setSpawnableObject(DrawableObject* object);
 	void spawnObjectAt(glm::vec3 position);

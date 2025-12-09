@@ -29,6 +29,10 @@ void Scene::addDrawableObjects(vector<DrawableObject*> objects) {
 	this->objects.insert(this->objects.end(), objects.begin(), objects.end());
 }
 
+GLuint Scene::getSelect() {
+	return selectedObjectID;
+}
+
 void Scene::setSelect(GLuint index) {
 	selectedObjectID = index;
 }
