@@ -85,7 +85,13 @@ void Scene::show() {
 
 	for (int i = 0; i < objects.size(); i++) {
 		glStencilFunc(GL_ALWAYS, i + 1, 0xFF);
-		objects[i]->draw(i + 1 == selectedObjectID);
+
+		bool isSelected = i + 1 == selectedObjectID;
+
+		objects[i]->draw(isSelected);
+
+		if (objects[i]->isGameObject() && isSelected)
+			selectedObjectID = 0;
 	}
 
 	glDisable(GL_STENCIL_TEST);

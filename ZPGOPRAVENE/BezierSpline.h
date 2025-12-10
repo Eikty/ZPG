@@ -45,6 +45,10 @@ public:
 		glm::vec3 tangent = glm::vec3(dp * bernstein * glm::transpose(points));
 
 		glm::vec3 forward = glm::normalize(-tangent);
+
+		if (length(tangent) == 0)
+			forward = glm::vec3(0.0f, 0.0f, 1.0f);
+
 		glm::vec3 up = glm::vec3(0, 1, 0);
 		glm::vec3 right = glm::normalize(glm::cross(up, forward));
 		up = glm::normalize(glm::cross(forward, right));

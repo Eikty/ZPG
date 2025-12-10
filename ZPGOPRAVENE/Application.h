@@ -17,10 +17,7 @@
 #include "BezierCurve.h"
 #include "BezierSpline.h"
 #include "bushes.h"
-#include "gift.h"
 #include "plain.h"
-#include "suzi_flat.h"
-#include "suzi_smooth.h"
 #include "tree.h"
 #include "Shader.h"
 #include "ILight.h"
@@ -30,6 +27,7 @@
 #include "LightsManager.h"
 #include "Flashlight.h"
 #include "Cigarette.h"
+#include "GameObject.h"
 
 using namespace std;
 

@@ -41,6 +41,10 @@ void DrawableObject::setTransformation(ITransformation* transformation) {
 	this->transformation = transformation;
 }
 
+bool DrawableObject::isGameObject() {
+	return false;
+}
+
 DrawableObject::~DrawableObject() {
 	if (shaderProgram)
 		delete shaderProgram;

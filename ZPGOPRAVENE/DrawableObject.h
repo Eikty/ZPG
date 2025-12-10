@@ -17,6 +17,7 @@ public:
 	DrawableObject(Model* model, glm::vec3 color, ITransformation* startingTransformation, ShaderProgram* shaderProgram, Texture* texture = nullptr);
 	void addTransformation(ITransformation* transformation);
 	void setTransformation(ITransformation* transformation);
+	virtual bool isGameObject();
 	virtual void draw(bool isSelected = false);
 	~DrawableObject();
 };

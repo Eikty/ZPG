@@ -82,6 +82,7 @@ void Application::createShaders() {
 	shaders.push_back(new ShaderProgram(shaderLambertLight));		// 7
 	shaders.push_back(new ShaderProgram(shaderPhongLight));			// 8
 	shaders.push_back(new ShaderProgram(shaderBlinnLight));			// 9
+	shaders.push_back(new ShaderProgram(shaderPhongLight));			// 10
 }
 
 void Application::createModels() {
@@ -381,6 +382,26 @@ void Application::createScenes() {
 	scene5->addDrawableObject(new DrawableObject(models.at("sphere"), glm::vec3(1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(9)));
 
 	Controller::addScene(scene5);
+
+	// Scene 6 - A Game
+	Scene* scene6 = new Scene(forest_sky);
+	shaders.at(10)->setCamera(scene6->getCamera());
+
+	scene6->addLight(new DirectionalLight(glm::vec3(0.0f, -1.0f, 3.0f), glm::vec3(1.0f), 1, shaders.at(10)));
+
+	grass = new DrawableObject(models.at("terrain"), glm::vec3(-1.0f), new Translation(glm::vec3(0.0f, -2.0f, 0.0f)), shaders.at(10), new Texture("Textures/grass.png"));
+	scene6->addDrawableObject(grass);
+
+	for (int i = 0; i < 40; i++) {
+		scene6->addDrawableObject(new GameObject(-1, models.at("shrek"), glm::vec3(-1.0f), new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)), shaders.at(10), new Texture("Textures/shrek.png")));
+	}
+
+	for (int i = 0; i < 10; i++) {
+		scene6->addDrawableObject(new GameObject(1, models.at("fiona"), glm::vec3(-1.0f), new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)), shaders.at(10), new Texture("Textures/fiona.png")));
+	}
+
+	Controller::addScene(scene6);
+
 }
 
 void Application::run() {

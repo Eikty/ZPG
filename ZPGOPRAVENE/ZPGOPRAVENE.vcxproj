@@ -134,6 +134,7 @@
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="Flashlight.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="LightsManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="BezierCurve.h" />
     <ClInclude Include="DynamicRotation.h" />
     <ClInclude Include="Flashlight.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="ILight.h" />
     <ClInclude Include="ITransformation.h" />
