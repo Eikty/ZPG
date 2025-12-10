@@ -3,6 +3,17 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+!Libraries/
+!Libraries/**
+!x64/
+!x64/**
+!Models/
+!Models/**
+!Textures/
+!Textures/**
+!assets/
+!assets/**
+
 # User-specific files
 *.rsuser
 *.suo
@@ -17,11 +28,11 @@
 mono_crash.*
 
 # Build results
-#[Dd]ebug/
+[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-#x64/
+x64/
 86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
@@ -32,9 +43,6 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
-
-!Libraries/
-!Libraries/**
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -78,7 +86,7 @@ StyleCopReport.xml
 *_h.h
 *.ilk
 *.meta
-#*.obj
+*.obj
 *.iobj
 *.pch
 #*.pdb
